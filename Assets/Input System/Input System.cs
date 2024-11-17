@@ -12,6 +12,8 @@ public class InputSystem : MonoBehaviour
     public static event Action<Vector2> OnMove;
     public static event Action<Vector2> OnRotate;
     public static event Action<Vector2> OnRotateJoint1;
+    public static event Action<Vector2> OnRotatePinsa;
+
     public static event Action<bool> OnGrab;
     public static event Action OnResetRotation;
 
@@ -40,6 +42,18 @@ public class InputSystem : MonoBehaviour
         inputActions.Basic.Pinsa.performed += OnGrabPerformed;
         inputActions.Basic.Pinsa.canceled += OnGrabCanceled;
         inputActions.Basic.ResetRotation.started += OnResetRotationStarted;
+        inputActions.Basic.RotatePinsa.performed += OnRotatePinsaPerformed;
+        inputActions.Basic.RotatePinsa.canceled += OnRotatePinsaCanceled;
+    }
+
+    private void OnRotatePinsaCanceled(InputAction.CallbackContext context)
+    {
+        OnRotatePinsa?.Invoke(Vector2.zero);
+    }
+
+    private void OnRotatePinsaPerformed(InputAction.CallbackContext context)
+    {
+        OnRotatePinsa?.Invoke(context.ReadValue<Vector2>());
     }
 
     private void OnDisable()
@@ -56,6 +70,8 @@ public class InputSystem : MonoBehaviour
         inputActions.Basic.ResetRotation.started -= OnResetRotationStarted;
 
     }
+   
+    
     
     private void OnMovementPerformed(InputAction.CallbackContext context)
     {

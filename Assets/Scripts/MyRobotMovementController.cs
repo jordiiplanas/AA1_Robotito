@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 public class MyRobotMovementControllerv : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class MyRobotMovementControllerv : MonoBehaviour
     public Transform pala2;
     public Transform pala3;
 
+    public Transform grabVector;
+
     public float speed;
     public float rotationSpeed;
 
@@ -24,6 +27,8 @@ public class MyRobotMovementControllerv : MonoBehaviour
 
     private Vector2 currentRotationJoint0 = Vector2.zero;
     private Vector2 currentRotationJoint1 = Vector2.zero;
+    private Vector2 currentRotationJoint2 = Vector2.zero;
+
 
     public bool isGrabbing = false;
 
@@ -37,6 +42,7 @@ public class MyRobotMovementControllerv : MonoBehaviour
     private void OnEnable()
     {
         InputSystem.OnMove += UpdateDirection;
+        InputSystem.OnRotatePinsa += PinsaRotation;
 
         InputSystem.OnRotate += UpdateRotationJoint0;
         InputSystem.OnRotateJoint1 += UpdateRotationJoint1;
@@ -46,9 +52,19 @@ public class MyRobotMovementControllerv : MonoBehaviour
         InputSystem.OnResetRotation += ResetRotation;
     }
 
+    private void PinsaRotation(Vector2 rotation)
+    {
+        float rotationX = -1 * rotation.y * rotationSpeed * Time.deltaTime;
+        float rotationY = rotation.x * rotationSpeed * Time.deltaTime;
+
+        currentRotationJoint2 = new Vector3(rotationX, rotationY, 0);
+    }
+
     private void OnDisable()
     {
         InputSystem.OnMove -= UpdateDirection;
+
+        InputSystem.OnResetRotation -= ResetRotation;
 
         InputSystem.OnRotate -= UpdateRotationJoint0;
         InputSystem.OnRotateJoint1 -= UpdateRotationJoint1;
@@ -84,7 +100,7 @@ public class MyRobotMovementControllerv : MonoBehaviour
     }
 
     private void Update()
-    {
+    {        
         if (currentDirection != Vector2.zero)
         {
             // Convert the Vector2 direction to a Vector3
@@ -106,6 +122,11 @@ public class MyRobotMovementControllerv : MonoBehaviour
         if (currentRotationJoint1 != Vector2.zero)
         {
             joint1.Rotate(currentRotationJoint1, Space.Self);
+        }
+
+        if (currentRotationJoint2 != Vector2.zero)
+        {
+            pinsa.Rotate(currentRotationJoint2, Space.Self);
         }
 
         if (isGrabbing) // we have to close the pinsa 

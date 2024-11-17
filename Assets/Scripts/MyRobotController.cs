@@ -63,8 +63,9 @@ public class MyRobotController : MonoBehaviour
 
     bool RayCastToObject()
     {
-        Debug.DrawRay(_movementController.pinsa.position, Vector3.down * distance, color:Color.blue);
+        Vector3 vectorToGrab = _movementController.grabVector.position - _movementController.pinsa.position;
 
-        return Physics.Raycast(_movementController.pinsa.position, Vector3.down, out hit, distance, hitLayerMask);
+        Debug.DrawRay(_movementController.pinsa.position, vectorToGrab * distance, color:Color.blue);
+        return Physics.Raycast(_movementController.pinsa.position, vectorToGrab, out hit, distance, hitLayerMask);
     }
 }

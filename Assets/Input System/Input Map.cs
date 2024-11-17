@@ -71,6 +71,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotatePinsa"",
+                    ""type"": ""Value"",
+                    ""id"": ""486c3a73-5742-470e-8561-7e67ce363b53"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -315,6 +324,72 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""Pinsa"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa9f83bf-7a98-4177-aeb4-3d4ea3b9ce4e"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotatePinsa"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""c9535c30-51a3-44ff-bce3-c754c7320147"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotatePinsa"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""cbe26737-a7a7-46be-8e94-9394e2331025"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotatePinsa"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""7672d440-fa35-4765-9bcd-7d6686363052"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotatePinsa"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""244e6a0a-d6f4-4da9-9ee9-7e7446896fa6"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotatePinsa"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""ba7e65ef-81d8-4ee3-bd2a-2033de725b6e"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotatePinsa"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -328,6 +403,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_Basic_ResetRotation = m_Basic.FindAction("ResetRotation", throwIfNotFound: true);
         m_Basic_RotateJoint1 = m_Basic.FindAction("RotateJoint1", throwIfNotFound: true);
         m_Basic_Pinsa = m_Basic.FindAction("Pinsa", throwIfNotFound: true);
+        m_Basic_RotatePinsa = m_Basic.FindAction("RotatePinsa", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -394,6 +470,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Basic_ResetRotation;
     private readonly InputAction m_Basic_RotateJoint1;
     private readonly InputAction m_Basic_Pinsa;
+    private readonly InputAction m_Basic_RotatePinsa;
     public struct BasicActions
     {
         private @InputMap m_Wrapper;
@@ -403,6 +480,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @ResetRotation => m_Wrapper.m_Basic_ResetRotation;
         public InputAction @RotateJoint1 => m_Wrapper.m_Basic_RotateJoint1;
         public InputAction @Pinsa => m_Wrapper.m_Basic_Pinsa;
+        public InputAction @RotatePinsa => m_Wrapper.m_Basic_RotatePinsa;
         public InputActionMap Get() { return m_Wrapper.m_Basic; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -427,6 +505,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Pinsa.started += instance.OnPinsa;
             @Pinsa.performed += instance.OnPinsa;
             @Pinsa.canceled += instance.OnPinsa;
+            @RotatePinsa.started += instance.OnRotatePinsa;
+            @RotatePinsa.performed += instance.OnRotatePinsa;
+            @RotatePinsa.canceled += instance.OnRotatePinsa;
         }
 
         private void UnregisterCallbacks(IBasicActions instance)
@@ -446,6 +527,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Pinsa.started -= instance.OnPinsa;
             @Pinsa.performed -= instance.OnPinsa;
             @Pinsa.canceled -= instance.OnPinsa;
+            @RotatePinsa.started -= instance.OnRotatePinsa;
+            @RotatePinsa.performed -= instance.OnRotatePinsa;
+            @RotatePinsa.canceled -= instance.OnRotatePinsa;
         }
 
         public void RemoveCallbacks(IBasicActions instance)
@@ -470,5 +554,6 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnResetRotation(InputAction.CallbackContext context);
         void OnRotateJoint1(InputAction.CallbackContext context);
         void OnPinsa(InputAction.CallbackContext context);
+        void OnRotatePinsa(InputAction.CallbackContext context);
     }
 }
