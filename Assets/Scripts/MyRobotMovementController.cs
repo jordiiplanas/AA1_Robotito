@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MyRobotMovementControllerv : MonoBehaviour
 {
-    public Transform robotGameObject;
+    public GameObject robotGameObject;
     public Transform joint0;
     public Transform joint1;
 
@@ -24,6 +24,13 @@ public class MyRobotMovementControllerv : MonoBehaviour
     private Vector2 currentRotationJoint1 = Vector2.zero;
 
     private bool isGrabbing = false; 
+
+    private Rigidbody rbRobot;
+
+    private void Awake()
+    {
+        rbRobot = robotGameObject.GetComponent<Rigidbody>();
+    }
 
     private void OnEnable()
     {
@@ -82,7 +89,8 @@ public class MyRobotMovementControllerv : MonoBehaviour
             Vector3 movement = new Vector3(currentDirection.x, 0, currentDirection.y);
 
             // Move the robot using the speed and deltaTime for frame rate independence
-            robotGameObject.Translate(movement * speed * Time.deltaTime, Space.World);
+            //robotGameObject.transform.Translate(movement * speed * Time.deltaTime, Space.World);
+            rbRobot.AddForce(movement * speed * Time.deltaTime);
         }
 
         if (currentRotationJoint0.x != 0)
