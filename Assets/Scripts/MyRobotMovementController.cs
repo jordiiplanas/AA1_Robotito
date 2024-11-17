@@ -6,24 +6,26 @@ public class MyRobotMovementControllerv : MonoBehaviour
     public GameObject robotGameObject;
     public Transform joint0;
     public Transform joint1;
+    public Transform pinsa;
+
 
     public Transform pala1;
     public Transform pala2;
     public Transform pala3;
-    
+
     public float speed;
     public float rotationSpeed;
 
     public float grabSpeed;
-    public float maxConstraintZ = 50f; 
-    public float minConstraintZ = -5f; 
+    public float maxConstraintZ = 50f;
+    public float minConstraintZ = -5f;
 
     private Vector2 currentDirection = Vector2.zero;
 
     private Vector2 currentRotationJoint0 = Vector2.zero;
     private Vector2 currentRotationJoint1 = Vector2.zero;
 
-    private bool isGrabbing = false; 
+    public bool isGrabbing = false;
 
     private Rigidbody rbRobot;
 
@@ -58,7 +60,7 @@ public class MyRobotMovementControllerv : MonoBehaviour
     {
         currentDirection = direction;
     }
-    
+
     private void UpdateRotationJoint0(Vector2 rotation)
     {
         float rotationX = -1 * rotation.y * rotationSpeed * Time.deltaTime;
@@ -106,14 +108,14 @@ public class MyRobotMovementControllerv : MonoBehaviour
             joint1.Rotate(currentRotationJoint1, Space.Self);
         }
 
-        if(isGrabbing) // we have to close the pinsa 
+        if (isGrabbing) // we have to close the pinsa 
         {
-            if(pala1.rotation.z * 100 > minConstraintZ)
+            if (pala1.rotation.z * 100 > minConstraintZ)
             {
                 Vector3 rotationZ = new Vector3(0, 0, -1 * Time.deltaTime * grabSpeed);
-                pala1.Rotate(rotationZ, Space.Self); 
-                pala2.Rotate(rotationZ, Space.Self); 
-                pala3.Rotate(rotationZ, Space.Self); 
+                pala1.Rotate(rotationZ, Space.Self);
+                pala2.Rotate(rotationZ, Space.Self);
+                pala3.Rotate(rotationZ, Space.Self);
             }
         }
         else // we have to open the pinsa
