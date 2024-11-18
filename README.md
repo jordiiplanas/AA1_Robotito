@@ -17,7 +17,7 @@ El proyecto funciona en la **SampleScene**, donde se ha configurado el entorno y
 
 ## Descripción del Proyecto
 
-Este proyecto es ideal para simulaciones de robótica y aprendizaje de conceptos de cinemática inversa y directa. Puedes ajustar y modificar el script para adaptar el comportamiento del brazo robótico según tus necesidades.
+Este proyecto es ideal para simulaciones de robótica y aprendizaje de conceptos de cinemática directa aplicada a joints. Puedes ajustar y modificar el script para adaptar el comportamiento del brazo robótico según tus necesidades.
 
 ---
 
