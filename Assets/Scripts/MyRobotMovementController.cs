@@ -154,7 +154,7 @@ public class MyRobotMovementControllerv : MonoBehaviour
     }
     private float NormalizeAngle(float angle)
     {
-        // Convierte el ángulo al rango -180° a 180°
+        // Convierte el Ã¡ngulo al rango -180Â° a 180Â°
         while (angle > 180f) angle -= 360f;
         while (angle < -180f) angle += 360f;
         return angle;
