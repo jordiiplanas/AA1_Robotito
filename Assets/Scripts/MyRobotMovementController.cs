@@ -129,9 +129,11 @@ public class MyRobotMovementControllerv : MonoBehaviour
             pinsa.Rotate(currentRotationJoint2, Space.Self);
         }
 
-        if (isGrabbing) // we have to close the pinsa 
+        float pala1GlobalZ = NormalizeAngle(pala1.eulerAngles.z);
+
+        if (isGrabbing) // Cerrar la pinza
         {
-            if (pala1.rotation.z * 100 > minConstraintZ)
+            if (pala1GlobalZ > minConstraintZ)
             {
                 Vector3 rotationZ = new Vector3(0, 0, -1 * Time.deltaTime * grabSpeed);
                 pala1.Rotate(rotationZ, Space.Self);
@@ -139,9 +141,9 @@ public class MyRobotMovementControllerv : MonoBehaviour
                 pala3.Rotate(rotationZ, Space.Self);
             }
         }
-        else // we have to open the pinsa
+        else // Abrir la pinza
         {
-            if (pala1.rotation.z * 100 < maxConstraintZ)
+            if (pala1GlobalZ < maxConstraintZ)
             {
                 Vector3 rotationZ = new Vector3(0, 0, Time.deltaTime * grabSpeed);
                 pala1.Rotate(rotationZ, Space.Self);
@@ -149,5 +151,12 @@ public class MyRobotMovementControllerv : MonoBehaviour
                 pala3.Rotate(rotationZ, Space.Self);
             }
         }
+    }
+    private float NormalizeAngle(float angle)
+    {
+        // Convierte el ángulo al rango -180° a 180°
+        while (angle > 180f) angle -= 360f;
+        while (angle < -180f) angle += 360f;
+        return angle;
     }
 }
